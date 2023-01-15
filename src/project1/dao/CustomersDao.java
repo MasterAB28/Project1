@@ -1,5 +1,6 @@
 package project1.dao;
 
+import project1.beans.Coupon;
 import project1.beans.Customer;
 
 import java.sql.SQLException;
@@ -12,4 +13,9 @@ public interface CustomersDao {
     void deleteCustomer (int customerId) throws SQLException;
     Customer getOneCustomer (int customerId) throws SQLException;
     List<Customer> getAllCustomers() throws SQLException;
+    List<Coupon> getAllCouponsById(int customerId) throws SQLException;
+    boolean isEmailExists(String email) throws SQLException;
+    boolean isCustomerIdExists(int customerId) throws SQLException;
+    void deleteCouponPurchasesByCustomerId(int customerId) throws SQLException;
+
 }
