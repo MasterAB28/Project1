@@ -37,7 +37,7 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCompany(int companyId) throws MyException, SQLException {
         if (companiesDao.isCompanyIdExist(companyId)) {
-            couponsDao.deletePurchasesCouponsWhenDeleteCompany(companyId);
+            companiesDao.deletePurchasesCouponsWhenDeleteCompany(companyId);
             couponsDao.deleteCouponByCompanyId(companyId);
             companiesDao.deleteCompany(companyId);
             return;
@@ -49,7 +49,7 @@ public class AdminFacade extends ClientFacade {
         return companiesDao.getAllCompanies();
     }
 
-    public Company getOneCompany(int companyId) throws SQLException {
+    public Company getOneCompany(int companyId) throws SQLException, MyException {
         return companiesDao.getOneCompany(companyId);
     }
 
@@ -65,13 +65,15 @@ public class AdminFacade extends ClientFacade {
         }
         throw new MyException("The customer not exist");
     }
+
     public void deleteCustomer(int customerId) throws SQLException, MyException {
-        if (customersDao.isCustomerIdExists(customerId)){
+        if (customersDao.isCustomerIdExists(customerId)) {
             customersDao.deleteCouponPurchasesByCustomerId(customerId);
             customersDao.deleteCustomer(customerId);
         }
         throw new MyException("this customer is not exists");
     }
+
     public List<Customer> getAllCustomers() throws SQLException {
         return customersDao.getAllCustomers();
     }

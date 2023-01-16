@@ -163,40 +163,6 @@ public class CouponsDaoImpl implements CouponsDao{
     }
 
     @Override
-    public void deletePurchasesCouponsWhenDeleteCompany(int companyId) throws SQLException {
-        Connection con = pool.getConnection();
-        try{
-            List<Integer> couponsId = couponsIdByCompanyId(companyId);
-            PreparedStatement statement = con.prepareStatement("delete from Customers_vs_coupons where coupon_id=?");
-            for (int i = 0; i < couponsId.size(); i++) {
-                statement.setInt(1, couponsId.get(i));
-                statement.execute();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            pool.restoreConnection(con);
-        }
-    }
-    public List<Integer> couponsIdByCompanyId (int companyId) throws SQLException{
-        Connection con = pool.getConnection();
-        try{
-            PreparedStatement statement = con.prepareStatement("select id from coupons where company_id=?");
-            statement.setInt(1,companyId);
-            ArrayList<Integer> couponsId = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                couponsId.add(resultSet.getInt(1));
-            }
-            return couponsId;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            pool.restoreConnection(con);
-        }
-    }
-
-    @Override
     public boolean isCompanyGotTheTitle(int companyId, String title) {
         Connection con = pool.getConnection();
         try {

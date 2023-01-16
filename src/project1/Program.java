@@ -6,6 +6,7 @@ import project1.beans.Company;
 import project1.beans.Coupon;
 import project1.beans.Customer;
 import project1.bl.AdminFacade;
+import project1.bl.CompanyFacade;
 import project1.dao.CompaniesDaoImpl;
 import project1.dao.CouponsDaoImpl;
 import project1.dao.CustomersDaoImpl;
@@ -18,8 +19,10 @@ public class Program {
     public static void main(String[] args) throws SQLException, MyException {
         CompaniesDaoImpl companiesDao = new CompaniesDaoImpl();
         AdminFacade adminFacade = new AdminFacade();
+        CompanyFacade companyFacade = new CompanyFacade("Water","1234");
         CouponsDaoImpl couponsDao = new CouponsDaoImpl();
-        adminFacade.deleteCompany(1);
+            Company company = new Company(5, "Water", "aa", "aa",null);
+            adminFacade.updateCompany(company);
 
 
     }

@@ -22,9 +22,8 @@ public interface CouponsDao {
 
     void deleteCouponByCompanyId(int companyId) throws SQLException;
 
-    void deletePurchasesCouponsWhenDeleteCompany(int companyId) throws SQLException;
-    List<Integer> couponsIdByCompanyId (int companyId) throws SQLException;
-    boolean isCompanyGotTheTitle (int companyId,String title);
+    boolean isCompanyGotTheTitle(int companyId, String title);
+
     void deleteCouponPurchaseByCompany(int couponId);
 }
 

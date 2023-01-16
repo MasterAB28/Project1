@@ -15,7 +15,9 @@ import java.util.List;
 
 public class CompaniesDaoImpl implements CompaniesDao {
     private ConnectionPool pool = ConnectionPool.getInstance();
-
+    /**
+     * check if the company exist by email and password
+     */
     @Override
     public boolean isCompanyExists(String email, String password) throws SQLException, MyException {
         Connection con = pool.getConnection();
@@ -31,7 +33,9 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
-
+    /**
+     * add company to the DB
+     */
     @Override
     public void addCompany(Company company) throws SQLException {
         Connection con = pool.getConnection();
@@ -48,9 +52,11 @@ public class CompaniesDaoImpl implements CompaniesDao {
 
         }
     }
-
+    /**
+     * update company in the DB
+     */
     @Override
-    public void updateCompany(Company company) throws SQLException {
+    public void updateCompany(Company company) throws SQLException, MyException {
         Connection con = pool.getConnection();
         try {
             PreparedStatement statement = con.prepareStatement("update companies set email=?, password=? where id=?");
@@ -58,13 +64,15 @@ public class CompaniesDaoImpl implements CompaniesDao {
             statement.setString(2, company.getPassword());
             statement.setInt(3, company.getId());
             statement.execute();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new MyException("THE UPDATE FAILED");
         } finally {
             pool.restoreConnection(con);
         }
     }
-
+    /**
+     * delete company from DB by company ID
+     */
     @Override
     public void deleteCompany(int companyId) throws SQLException {
         Connection con = pool.getConnection();
@@ -78,9 +86,11 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
-
+    /**
+     * get one company from DB by company ID
+     */
     @Override
-    public Company getOneCompany(int companyId) throws SQLException {
+    public Company getOneCompany(int companyId) throws SQLException, MyException {
         Connection con = pool.getConnection();
         try {
             PreparedStatement statement = con.prepareStatement("select * from companies where id=?");
@@ -91,14 +101,16 @@ public class CompaniesDaoImpl implements CompaniesDao {
                         resultSet.getString(4), getAllCouponByCompanyId(resultSet.getInt(1)));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new MyException("the company not exist");
         } finally {
             pool.restoreConnection(con);
 
         }
         return null;
     }
-
+    /**
+     * get all the companies in the DB
+     */
     @Override
     public List<Company> getAllCompanies() throws SQLException {
         Connection con = pool.getConnection();
@@ -117,7 +129,9 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
-
+    /**
+     * get all the coupons by company ID
+     */
     public List<Coupon> getAllCouponByCompanyId(int companyId) throws SQLException {
         Connection con = pool.getConnection();
         try {
@@ -138,7 +152,9 @@ public class CompaniesDaoImpl implements CompaniesDao {
         }
     }
 
-    //לבדוק אם קיים חברה עם שם ואימייל זהים
+    /**
+     * check if the email or the name is exists in the DB
+     */
     @Override
     public boolean isNameAndEmailExist(String email, String name) throws SQLException, MyException {
         Connection con = pool.getConnection();
@@ -154,7 +170,27 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
-
+    /**
+     * delete purchase of coupon by coupon ID(use when delete company)*
+     */
+    public void deletePurchasesCouponsWhenDeleteCompany(int companyId) throws SQLException {
+        Connection con = pool.getConnection();
+        try{
+            List<Coupon> couponsId = getAllCouponByCompanyId(companyId);
+            PreparedStatement statement = con.prepareStatement("delete from Customers_vs_coupons where coupon_id=?");
+            for (int i = 0; i < couponsId.size(); i++) {
+                statement.setInt(1, couponsId.get(i).getId());
+                statement.execute();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            pool.restoreConnection(con);
+        }
+    }
+    /**
+     * check if the company exist by ID
+     */
     @Override
     public boolean isCompanyIdExist(int companyId) throws SQLException, MyException {
         Connection con = pool.getConnection();
@@ -169,4 +205,20 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
+    public int getCompanyIdByEmailAndPassword(String email, String password) throws SQLException, MyException {
+        Connection con = pool.getConnection();
+        try {
+            PreparedStatement statement = con.prepareStatement("select id from companies where email=? and password=?");
+            statement.setString(1, email);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new MyException("System failed");
+        } finally {
+            pool.restoreConnection(con);
+        }
+    }
+
 }
