@@ -182,4 +182,19 @@ public class CustomersDaoImpl implements CustomersDao {
                 pool.restoreConnection(con);
             }
     }
+    public int getCustomerIdByEmailAndPassword(String email, String password) throws SQLException {
+        Connection con = pool.getConnection();
+        try {
+            PreparedStatement statement = con.prepareStatement("select id from customers where email=? and password=?");
+            statement.setString(1, email);
+            statement.setString(2,password);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            pool.restoreConnection(con);
+        }
+    }
 }

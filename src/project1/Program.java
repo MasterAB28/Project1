@@ -1,5 +1,6 @@
 package project1;
 
+import com.mysql.cj.x.protobuf.MysqlxNotice;
 import project1.Exception.MyException;
 import project1.beans.Category;
 import project1.beans.Company;
@@ -19,10 +20,13 @@ public class Program {
     public static void main(String[] args) throws SQLException, MyException {
         CompaniesDaoImpl companiesDao = new CompaniesDaoImpl();
         AdminFacade adminFacade = new AdminFacade();
-        CompanyFacade companyFacade = new CompanyFacade("Water","1234");
         CouponsDaoImpl couponsDao = new CouponsDaoImpl();
-            Company company = new Company(5, "Water", "aa", "aa",null);
-            adminFacade.updateCompany(company);
+        try {
+            CompanyFacade companyFacade1 = new CompanyFacade("aa","aa");
+            System.out.println(companyFacade1.getCompanyDetails());
+        } catch (MyException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
 
     }

@@ -30,4 +30,6 @@ public interface CompaniesDao {
     boolean isCompanyIdExist(int companyId) throws SQLException, MyException;
 
     int getCompanyIdByEmailAndPassword(String email, String password) throws SQLException, MyException;
+
+
 }

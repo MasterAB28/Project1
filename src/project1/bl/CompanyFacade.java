@@ -1,9 +1,13 @@
 package project1.bl;
 
 import project1.Exception.MyException;
+import project1.beans.Category;
+import project1.beans.Company;
 import project1.beans.Coupon;
 
+import java.sql.Array;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyFacade extends ClientFacade{
@@ -50,5 +54,21 @@ public class CompanyFacade extends ClientFacade{
             throw new RuntimeException(e);
         }
     }
-
+    public List<Coupon> getCompanyCoupons(Category category){
+        ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCompanyCoupons();
+        couponList.removeIf(cou -> !cou.getCategory().equals(category));
+        return couponList;
+    }
+    public List<Coupon> getCompanyCoupons(Double maxPrice){
+        ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCompanyCoupons();
+        couponList.removeIf(cou -> cou.getPrice()>maxPrice);
+        return couponList;
+    }
+    public Company getCompanyDetails(){
+        try{
+            return companiesDao.getOneCompany(companyId);
+        } catch (MyException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
