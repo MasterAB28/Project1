@@ -166,7 +166,7 @@ public class CouponsDaoImpl implements CouponsDao{
     public boolean isCompanyGotTheTitle(int companyId, String title) {
         Connection con = pool.getConnection();
         try {
-            PreparedStatement statement = con.prepareStatement("select from coupons where company_id=? and title=?");
+            PreparedStatement statement = con.prepareStatement("select * from coupons where company_id=? and title=?");
             statement.setInt(1,companyId);
             statement.setString(2,title);
             ResultSet resultSet = statement.executeQuery();

@@ -11,7 +11,6 @@ public class CustomerFacade extends ClientFacade {
     public CustomerFacade(String email, String password) throws SQLException, MyException {
         if (login(email, password))
         this.customerID = customersDao.getCustomerIdByEmailAndPassword(email, password);
-
     }
 
     @Override
