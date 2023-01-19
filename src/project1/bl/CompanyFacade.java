@@ -13,15 +13,13 @@ import java.util.List;
 public class CompanyFacade extends ClientFacade{
     private int companyId;
 
-    public CompanyFacade(String email,String password) throws MyException, SQLException {
-        if (login(email, password)){
-            companyId = companiesDao.getCompanyIdByEmailAndPassword(email,password);
-        }
+    public CompanyFacade() throws MyException, SQLException {
     }
 
     @Override
     public boolean login(String email, String password) throws MyException, SQLException {
-        if (companiesDao.isCompanyExists(email,password))
+        companyId = companiesDao.isCompanyExists(email,password);
+        if (companyId != 0)
             return true;
         throw new MyException("login failed");
     }

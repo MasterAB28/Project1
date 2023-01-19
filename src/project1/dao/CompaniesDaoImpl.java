@@ -15,24 +15,28 @@ import java.util.List;
 
 public class CompaniesDaoImpl implements CompaniesDao {
     private ConnectionPool pool = ConnectionPool.getInstance();
+
     /**
      * check if the company exist by email and password
      */
     @Override
-    public boolean isCompanyExists(String email, String password) throws SQLException, MyException {
+    public int isCompanyExists(String email, String password) throws SQLException, MyException {
         Connection con = pool.getConnection();
         try {
-            PreparedStatement statement = con.prepareStatement("select email,password from companies where email=? and password=?");
+            PreparedStatement statement = con.prepareStatement("select id from companies where email=? and password=?");
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
-            return resultSet.next();
+            if (resultSet.next())
+                return resultSet.getInt(1);
+            return 0;
         } catch (SQLException e) {
-            throw new MyException("Check if company exist by email and password failed");
+            throw new MyException("System failed");
         } finally {
             pool.restoreConnection(con);
         }
     }
+
     /**
      * add company to the DB
      */
@@ -52,6 +56,7 @@ public class CompaniesDaoImpl implements CompaniesDao {
 
         }
     }
+
     /**
      * update company in the DB
      */
@@ -70,6 +75,7 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
+
     /**
      * delete company from DB by company ID
      */
@@ -86,6 +92,7 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
+
     /**
      * get one company from DB by company ID
      */
@@ -108,6 +115,7 @@ public class CompaniesDaoImpl implements CompaniesDao {
         }
         return null;
     }
+
     /**
      * get all the companies in the DB
      */
@@ -129,6 +137,7 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
+
     /**
      * get all the coupons by company ID
      */
@@ -170,12 +179,13 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
+
     /**
      * delete purchase of coupon by coupon ID(use when delete company)*
      */
     public void deletePurchasesCouponsWhenDeleteCompany(int companyId) throws SQLException {
         Connection con = pool.getConnection();
-        try{
+        try {
             List<Coupon> couponsId = getAllCouponByCompanyId(companyId);
             PreparedStatement statement = con.prepareStatement("delete from Customers_vs_coupons where coupon_id=?");
             for (int i = 0; i < couponsId.size(); i++) {
@@ -184,10 +194,11 @@ public class CompaniesDaoImpl implements CompaniesDao {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             pool.restoreConnection(con);
         }
     }
+
     /**
      * check if the company exist by ID
      */
@@ -196,7 +207,7 @@ public class CompaniesDaoImpl implements CompaniesDao {
         Connection con = pool.getConnection();
         try {
             PreparedStatement statement = con.prepareStatement("select * from companies where id=?");
-            statement.setInt(1,companyId);
+            statement.setInt(1, companyId);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
@@ -205,20 +216,6 @@ public class CompaniesDaoImpl implements CompaniesDao {
             pool.restoreConnection(con);
         }
     }
-    public int getCompanyIdByEmailAndPassword(String email, String password) throws SQLException, MyException {
-        Connection con = pool.getConnection();
-        try {
-            PreparedStatement statement = con.prepareStatement("select id from companies where email=? and password=?");
-            statement.setString(1, email);
-            statement.setString(2, password);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            throw new MyException("System failed");
-        } finally {
-            pool.restoreConnection(con);
-        }
-    }
+
 
 }

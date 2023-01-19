@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.BinaryOperator;
 
 public interface CompaniesDao {
-    boolean isCompanyExists(String email, String password) throws SQLException, MyException;
+    int isCompanyExists(String email, String password) throws SQLException, MyException;
 
     void addCompany(Company company) throws SQLException;
 
@@ -29,7 +29,6 @@ public interface CompaniesDao {
 
     boolean isCompanyIdExist(int companyId) throws SQLException, MyException;
 
-    int getCompanyIdByEmailAndPassword(String email, String password) throws SQLException, MyException;
 
 
 }

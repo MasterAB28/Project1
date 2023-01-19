@@ -17,14 +17,16 @@ public class CustomersDaoImpl implements CustomersDao {
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
-    public boolean isCustomerExists(String email, String password) throws SQLException {
+    public int isCustomerExists(String email, String password) throws SQLException {
         Connection con = pool.getConnection();
         try {
-            PreparedStatement statement = con.prepareStatement("select email,password from customers where email=? and password=?");
+            PreparedStatement statement = con.prepareStatement("select id from customers where email=? and password=?");
             statement.setString(1, email);
             statement.setString(2,password);
             ResultSet resultSet = statement.executeQuery();
-            return resultSet.next();
+            if (resultSet.next())
+                return resultSet.getInt(1);
+            return 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
@@ -36,7 +38,8 @@ public class CustomersDaoImpl implements CustomersDao {
     public void addCustomer(Customer customer) throws SQLException {
         Connection con = pool.getConnection();
         try {
-            PreparedStatement statement = con.prepareStatement("INSERT INTO `coupons`.`customers` (`first_name`, `last_name`, `email`, `password`) VALUES (?,?,?,?);");
+            PreparedStatement statement = con.prepareStatement("INSERT INTO `coupons`.`customers` (`first_name`," +
+                    " `last_name`, `email`, `password`) VALUES (?,?,?,?);");
             statement.setString(1, customer.getFirstName());
             statement.setString(2, customer.getLastName());
             statement.setString(3, customer.getEmail());
@@ -182,19 +185,5 @@ public class CustomersDaoImpl implements CustomersDao {
                 pool.restoreConnection(con);
             }
     }
-    public int getCustomerIdByEmailAndPassword(String email, String password) throws SQLException {
-        Connection con = pool.getConnection();
-        try {
-            PreparedStatement statement = con.prepareStatement("select id from customers where email=? and password=?");
-            statement.setString(1, email);
-            statement.setString(2,password);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            pool.restoreConnection(con);
-        }
-    }
+
 }

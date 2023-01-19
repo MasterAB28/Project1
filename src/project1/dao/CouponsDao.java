@@ -1,5 +1,6 @@
 package project1.dao;
 
+import project1.Exception.MyException;
 import project1.beans.Coupon;
 
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ public interface CouponsDao {
 
     List<Coupon> getAllCoupons() throws SQLException;
 
-    void addCouponPurchase(int customerId, int couponId) throws SQLException;
+    void addCouponPurchase(int customerId, int couponId) throws SQLException, MyException;
 
     void deleteCouponPurchase(int customerId, int couponI) throws SQLException;
 
@@ -25,5 +26,6 @@ public interface CouponsDao {
     boolean isCompanyGotTheTitle(int companyId, String title);
 
     void deleteCouponPurchaseByCompany(int couponId);
+    boolean isPurchaseExist(int customerId, int couponId) throws MyException;
 }
 
