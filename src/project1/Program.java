@@ -13,11 +13,11 @@ import project1.dao.CompaniesDaoImpl;
 import project1.dao.CouponsDaoImpl;
 import project1.dao.CustomersDaoImpl;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Program {
     public static void main(String[] args) throws SQLException, MyException {
@@ -25,11 +25,11 @@ public class Program {
         AdminFacade adminFacade = new AdminFacade();
         CouponsDaoImpl couponsDao = new CouponsDaoImpl();
         try{
-//            couponsDao.deleteCouponPurchase(3,12);
-            CustomerFacade customerFacade = new CustomerFacade();
-            customerFacade.login("gg","1234");
-            customerFacade.purchaseCoupon(couponsDao.getOneCoupon(10));
-        } catch (MyException e) {
+            Company company=companiesDao.getOneCompany(2);
+            company.setPassword("abb");
+            adminFacade.updateCompany(company);
+            System.out.println("success");
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 

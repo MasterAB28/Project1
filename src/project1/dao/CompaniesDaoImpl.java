@@ -186,10 +186,10 @@ public class CompaniesDaoImpl implements CompaniesDao {
     public void deletePurchasesCouponsWhenDeleteCompany(int companyId) throws SQLException {
         Connection con = pool.getConnection();
         try {
-            List<Coupon> couponsId = getAllCouponByCompanyId(companyId);
+            List<Coupon> coupons = getAllCouponByCompanyId(companyId);
             PreparedStatement statement = con.prepareStatement("delete from Customers_vs_coupons where coupon_id=?");
-            for (int i = 0; i < couponsId.size(); i++) {
-                statement.setInt(1, couponsId.get(i).getId());
+            for (Coupon coupon : coupons) {
+                statement.setInt(1, coupon.getId());
                 statement.execute();
             }
         } catch (SQLException e) {
