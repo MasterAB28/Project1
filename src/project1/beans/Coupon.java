@@ -41,8 +41,16 @@ public class Coupon {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getCompanyId() {
         return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
     public Category getCategory() {

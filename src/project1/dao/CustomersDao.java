@@ -15,7 +15,8 @@ public interface CustomersDao {
     List<Customer> getAllCustomers() throws SQLException;
     List<Coupon> getAllCouponsById(int customerId) throws SQLException;
     boolean isEmailExists(String email) throws SQLException;
-    boolean isCustomerIdExists(int customerId) throws SQLException;
+    boolean isCustomerExistsById(int customerId) throws SQLException;
     void deleteCouponPurchasesByCustomerId(int customerId) throws SQLException;
+
 
 }

@@ -2,6 +2,7 @@ package project1.bl;
 
 import project1.Exception.MyException;
 import project1.beans.Company;
+import project1.beans.Coupon;
 import project1.beans.Customer;
 
 import java.sql.SQLException;
@@ -25,61 +26,65 @@ public class AdminFacade extends ClientFacade {
     }
 
     public void updateCompany(Company company) throws SQLException, MyException {
-        if (companiesDao.isCompanyIdExist(company.getId())) {
-            Company companyToUpdate = companiesDao.getOneCompany(company.getId());
-            companyToUpdate.setEmail(company.getEmail());
-            companyToUpdate.setPassword(company.getPassword());
-            companiesDao.updateCompany(companyToUpdate);
+        if (companiesDao.isCompanyExistById(company.getId())) {
+            companiesDao.updateCompany(company);
             return;
         }
-        throw new MyException("this company is not exist");
+        throw new MyException("The company update failed");
     }
 
     public void deleteCompany(int companyId) throws MyException, SQLException {
-        if (companiesDao.isCompanyIdExist(companyId)) {
-            companiesDao.deletePurchasesCouponsWhenDeleteCompany(companyId);
-            couponsDao.deleteCouponByCompanyId(companyId);
+        if (companiesDao.isCompanyExistById(companyId)) {
+            List<Coupon> coupons = companiesDao.getAllCouponByCompanyId(companyId);
+            for (Coupon coupon : coupons) {
+                couponsDao.deleteCouponPurchaseByCouponId(coupon.getId());
+                couponsDao.deleteCoupon(coupon.getId());
+            }
             companiesDao.deleteCompany(companyId);
             return;
         }
-        throw new MyException("this company is not exist");
+        throw new MyException("The company delete is failed");
     }
 
-    public List<Company> getAllCompanies() throws SQLException {
+    public List<Company> getAllCompanies() throws SQLException, MyException {
         return companiesDao.getAllCompanies();
     }
 
     public Company getOneCompany(int companyId) throws SQLException, MyException {
+        if (companiesDao.isCompanyExistById(companyId))
         return companiesDao.getOneCompany(companyId);
+        throw new MyException("This company is not exists");
     }
 
     public void addCustomer(Customer customer) throws SQLException, MyException {
         if (customersDao.isEmailExists(customer.getEmail()))
-            throw new MyException("this email exists");
+            throw new MyException("This email exists");
         customersDao.addCustomer(customer);
     }
 
     public void updateCustomer(Customer customer) throws SQLException, MyException {
-        if (customersDao.isCustomerIdExists(customer.getId())) {
+        if (customersDao.isCustomerExistsById(customer.getId())) {
             customersDao.updateCustomer(customer);
         }
-        throw new MyException("The customer not exist");
+        throw new MyException("The customer update is failed");
     }
 
     public void deleteCustomer(int customerId) throws SQLException, MyException {
-        if (customersDao.isCustomerIdExists(customerId)) {
+        if (customersDao.isCustomerExistsById(customerId)) {
             customersDao.deleteCouponPurchasesByCustomerId(customerId);
             customersDao.deleteCustomer(customerId);
         }
-        throw new MyException("this customer is not exists");
+        throw new MyException("The customer delete is failed");
     }
 
-    public List<Customer> getAllCustomers() throws SQLException {
+    public List<Customer> getAllCustomers() throws SQLException, MyException {
         return customersDao.getAllCustomers();
     }
 
-    public Customer getOneCustomer(int customerId) throws SQLException {
+    public Customer getOneCustomer(int customerId) throws SQLException, MyException {
+        if (customersDao.isCustomerExistsById(customerId))
         return customersDao.getOneCustomer(customerId);
+        throw new MyException("This customer is not exists");
     }
 
 }

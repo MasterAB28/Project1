@@ -5,13 +5,9 @@ import project1.beans.Category;
 import project1.beans.Coupon;
 import project1.beans.Customer;
 
+import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class CustomerFacade extends ClientFacade {
@@ -20,6 +16,9 @@ public class CustomerFacade extends ClientFacade {
     public CustomerFacade() {
     }
 
+    /**
+     *Check if the customer details who logged in are correct and set the customer id by the email and password
+     */
     @Override
     public boolean login(String email, String password) throws MyException, SQLException {
         customerID = customersDao.isCustomerExists(email, password);
@@ -29,10 +28,12 @@ public class CustomerFacade extends ClientFacade {
 
     }
 
+    /**
+     *Logic of purchase coupon by customer
+     */
     public void purchaseCoupon(Coupon coupon) throws SQLException, MyException {
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.format(date);
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new Date(millis);
         if (couponsDao.isPurchaseExist(customerID, coupon.getId())) {
             if (coupon.getAmount() > 0) {
                 if (coupon.getEndDate().after(date)) {
@@ -43,32 +44,39 @@ public class CustomerFacade extends ClientFacade {
                     throw new MyException("The coupon is expired");
             } else
                 throw new MyException("The coupon is out of stock");
-        } else {
+        } else
             throw new MyException("you already bought the coupon");
-        }
     }
-    public List<Coupon> getCustomerCoupons(){
-        try {
-            return customersDao.getAllCouponsById(customerID);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+    /**
+     *Get all customer coupons
+     */
+    public List<Coupon> getCustomerCoupons() throws SQLException, MyException {
+        return customersDao.getAllCouponsById(customerID);
     }
-    public List<Coupon> getCustomerCoupons(Category category){
+
+    /**
+     *Get all customer coupons by category
+     */
+    public List<Coupon> getCustomerCoupons(Category category) throws SQLException, MyException {
         ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCustomerCoupons();
         couponList.removeIf(cou -> !cou.getCategory().equals(category));
         return couponList;
     }
-    public List<Coupon> getCustomerCoupons(double maxPrice){
+
+    /**
+     *Get all customer coupons by maximum price
+     */
+    public List<Coupon> getCustomerCoupons(double maxPrice) throws SQLException, MyException {
         ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCustomerCoupons();
-        couponList.removeIf(cou -> cou.getPrice()>maxPrice);
+        couponList.removeIf(cou -> cou.getPrice() > maxPrice);
         return couponList;
     }
-    public Customer getCustomerDetails(){
-        try {
-            return customersDao.getOneCustomer(customerID);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+    /**
+     * Get all customer details
+     */
+    public Customer getCustomerDetails() throws SQLException, MyException {
+        return customersDao.getOneCustomer(customerID);
     }
 }

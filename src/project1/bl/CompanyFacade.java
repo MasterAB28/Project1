@@ -5,68 +5,62 @@ import project1.beans.Category;
 import project1.beans.Company;
 import project1.beans.Coupon;
 
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyFacade extends ClientFacade{
+public class CompanyFacade extends ClientFacade {
     private int companyId;
 
-    public CompanyFacade() throws MyException, SQLException {
+    public CompanyFacade() {
     }
 
     @Override
     public boolean login(String email, String password) throws MyException, SQLException {
-        companyId = companiesDao.isCompanyExists(email,password);
+        companyId = companiesDao.isCompanyExists(email, password);
         if (companyId != 0)
             return true;
         throw new MyException("login failed");
     }
+
     public void addCoupon(Coupon coupon) throws MyException, SQLException {
-        if (couponsDao.isCompanyGotTheTitle(coupon.getCompanyId(),coupon.getTitle())){
-            throw new MyException("This title is exist for your company");
+        if (couponsDao.isCompanyGotTheTitle(coupon.getCompanyId(), coupon.getTitle())) {
+            throw new MyException("This title is exists for your company");
         }
         couponsDao.addCoupon(coupon);
     }
-    public void updateCoupon(Coupon coupon) throws MyException {
-        try {
+
+    public void updateCoupon(Coupon coupon) throws MyException, SQLException {
+        if (couponsDao.isCouponExistById(coupon.getId()))
             couponsDao.updateCoupon(coupon);
-        } catch (SQLException e) {
-            throw new MyException("coupon update failed");
-        }
-    }
-    public void deleteCoupon(int couponId) throws MyException {
-        try {
-            couponsDao.deleteCouponPurchaseByCompany(couponId);
-            couponsDao.deleteCoupon(couponId);
-        } catch (SQLException e) {
-            throw new MyException("coupon delete failed");
-        }
+        throw new MyException("coupon is not exists");
     }
 
-    public List<Coupon> getCompanyCoupons(){
-        try{
-            return companiesDao.getAllCouponByCompanyId(companyId);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public void deleteCoupon(int couponId) throws MyException, SQLException {
+        if (couponsDao.isCouponExistById(couponId)) {
+            couponsDao.deleteCouponPurchaseByCouponId(couponId);
+            couponsDao.deleteCoupon(couponId);
         }
+        throw new MyException("coupon is not exists");
     }
-    public List<Coupon> getCompanyCoupons(Category category){
+
+    public List<Coupon> getCompanyCoupons() throws SQLException, MyException {
+        return companiesDao.getAllCouponByCompanyId(companyId);
+    }
+
+    public List<Coupon> getCompanyCoupons(Category category) throws SQLException, MyException {
         ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCompanyCoupons();
         couponList.removeIf(cou -> !cou.getCategory().equals(category));
         return couponList;
     }
-    public List<Coupon> getCompanyCoupons(Double maxPrice){
+
+    public List<Coupon> getCompanyCoupons(Double maxPrice) throws SQLException, MyException {
         ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCompanyCoupons();
-        couponList.removeIf(cou -> cou.getPrice()>maxPrice);
+        couponList.removeIf(cou -> cou.getPrice() > maxPrice);
         return couponList;
     }
-    public Company getCompanyDetails(){
-        try{
+
+    public Company getCompanyDetails() throws MyException, SQLException {
             return companiesDao.getOneCompany(companyId);
-        } catch (MyException | SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
