@@ -29,7 +29,7 @@ public class CompaniesDaoImpl implements CompaniesDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
                 return resultSet.getInt(1);
-            return 0;
+            return -1;
         }  finally {
             pool.restoreConnection(con);
         }

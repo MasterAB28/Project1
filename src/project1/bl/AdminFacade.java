@@ -77,7 +77,7 @@ public class AdminFacade extends ClientFacade {
         throw new MyException("The customer delete is failed");
     }
 
-    public List<Customer> getAllCustomers() throws SQLException, MyException {
+    public List<Customer> getAllCustomers() throws SQLException {
         return customersDao.getAllCustomers();
     }
 

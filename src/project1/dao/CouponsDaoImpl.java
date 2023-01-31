@@ -89,7 +89,6 @@ public class CouponsDaoImpl implements CouponsDao {
             statement.setInt(1, couponId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                pool.restoreConnection(con);
                 return new Coupon(resultSet.getInt(1), resultSet.getInt(2), Category.values()[resultSet.getInt(3) - 1],
                         resultSet.getString(4), resultSet.getString(5), resultSet.getDate(6),
                         resultSet.getDate(7), resultSet.getInt(8), resultSet.getDouble(9),

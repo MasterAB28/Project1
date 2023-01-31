@@ -18,7 +18,7 @@ public class CompanyFacade extends ClientFacade {
     @Override
     public boolean login(String email, String password) throws MyException, SQLException {
         companyId = companiesDao.isCompanyExists(email, password);
-        if (companyId != 0)
+        if (companyId != -1)
             return true;
         throw new MyException("login failed");
     }
@@ -44,23 +44,23 @@ public class CompanyFacade extends ClientFacade {
         throw new MyException("coupon is not exists");
     }
 
-    public List<Coupon> getCompanyCoupons() throws SQLException, MyException {
+    public List<Coupon> getCompanyCoupons() throws SQLException {
         return companiesDao.getAllCouponByCompanyId(companyId);
     }
 
-    public List<Coupon> getCompanyCoupons(Category category) throws SQLException, MyException {
+    public List<Coupon> getCompanyCoupons(Category category) throws SQLException {
         ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCompanyCoupons();
         couponList.removeIf(cou -> !cou.getCategory().equals(category));
         return couponList;
     }
 
-    public List<Coupon> getCompanyCoupons(Double maxPrice) throws SQLException, MyException {
+    public List<Coupon> getCompanyCoupons(Double maxPrice) throws SQLException {
         ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCompanyCoupons();
         couponList.removeIf(cou -> cou.getPrice() > maxPrice);
         return couponList;
     }
 
-    public Company getCompanyDetails() throws MyException, SQLException {
+    public Company getCompanyDetails() throws SQLException {
             return companiesDao.getOneCompany(companyId);
     }
 }

@@ -24,7 +24,7 @@ public class CustomersDaoImpl implements CustomersDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
                 return resultSet.getInt(1);
-            return 0;
+            return -1;
         }finally {
             pool.restoreConnection(con);
         }
@@ -97,7 +97,6 @@ public class CustomersDaoImpl implements CustomersDao {
             statement.setInt(1, customerId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                pool.restoreConnection(con);
                 return new Customer(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
                         resultSet.getString(4),resultSet.getString(5),getAllCouponsById(resultSet.getInt(1)));
             }

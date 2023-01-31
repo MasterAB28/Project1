@@ -1,7 +1,6 @@
 package project1.login;
 
 import project1.Exception.MyException;
-import project1.beans.Customer;
 import project1.bl.AdminFacade;
 import project1.bl.ClientFacade;
 import project1.bl.CompanyFacade;

@@ -23,10 +23,7 @@ public interface CompaniesDao {
 
     boolean isNameAndEmailExist(String email, String name) throws SQLException;
 
-
-     boolean isCompanyExistById(int companyId) throws SQLException;
-
-
+    boolean isCompanyExistById(int companyId) throws SQLException;
 
 
 }

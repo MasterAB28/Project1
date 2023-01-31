@@ -22,7 +22,7 @@ public class CustomerFacade extends ClientFacade {
     @Override
     public boolean login(String email, String password) throws MyException, SQLException {
         customerID = customersDao.isCustomerExists(email, password);
-        if (customerID != 0)
+        if (customerID != -1)
             return true;
         throw new MyException("login failed");
 
@@ -51,14 +51,14 @@ public class CustomerFacade extends ClientFacade {
     /**
      *Get all customer coupons
      */
-    public List<Coupon> getCustomerCoupons() throws SQLException, MyException {
+    public List<Coupon> getCustomerCoupons() throws SQLException {
         return customersDao.getAllCouponsById(customerID);
     }
 
     /**
      *Get all customer coupons by category
      */
-    public List<Coupon> getCustomerCoupons(Category category) throws SQLException, MyException {
+    public List<Coupon> getCustomerCoupons(Category category) throws SQLException {
         ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCustomerCoupons();
         couponList.removeIf(cou -> !cou.getCategory().equals(category));
         return couponList;
@@ -67,7 +67,7 @@ public class CustomerFacade extends ClientFacade {
     /**
      *Get all customer coupons by maximum price
      */
-    public List<Coupon> getCustomerCoupons(double maxPrice) throws SQLException, MyException {
+    public List<Coupon> getCustomerCoupons(double maxPrice) throws SQLException {
         ArrayList<Coupon> couponList = (ArrayList<Coupon>) getCustomerCoupons();
         couponList.removeIf(cou -> cou.getPrice() > maxPrice);
         return couponList;
@@ -76,7 +76,7 @@ public class CustomerFacade extends ClientFacade {
     /**
      * Get all customer details
      */
-    public Customer getCustomerDetails() throws SQLException, MyException {
+    public Customer getCustomerDetails() throws SQLException {
         return customersDao.getOneCustomer(customerID);
     }
 }
