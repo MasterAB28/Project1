@@ -73,6 +73,9 @@ public class CustomerFacade extends ClientFacade {
         return couponList;
     }
 
+    public List<Coupon> getAllCoupons() throws SQLException {
+        return couponsDao.getAllCoupons();
+    }
     /**
      * Get all customer details
      */

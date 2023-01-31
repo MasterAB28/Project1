@@ -33,6 +33,7 @@ public class CouponExpirationDailyJob implements Runnable {
                     if (coupon.getEndDate().before(date)) {
                         couponsDao.deleteCouponPurchaseByCouponId(coupon.getId());
                         couponsDao.deleteCoupon(coupon.getId());
+                        System.out.println("delete success");
                     }
                 }
                 try {
@@ -47,6 +48,7 @@ public class CouponExpirationDailyJob implements Runnable {
     }
     public void stop(){
         this.quit = true;
+        System.out.println("the program end");
     }
 
 }
