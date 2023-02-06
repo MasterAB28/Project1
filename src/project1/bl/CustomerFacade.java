@@ -22,10 +22,11 @@ public class CustomerFacade extends ClientFacade {
     @Override
     public boolean login(String email, String password) throws MyException, SQLException {
         customerID = customersDao.isCustomerExists(email, password);
-        if (customerID != -1)
+        if (customerID != -1) {
+            System.out.println("login success");
             return true;
+        }
         throw new MyException("login failed");
-
     }
 
     /**

@@ -13,7 +13,7 @@ public class CompaniesDaoImpl implements CompaniesDao {
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     /**
-     * The method checks if the company exists by email and password
+     * The method receives company's email and password and checks if the company exists in the 'companies' db
      * @param email -company email
      * @param password-company password
      * @return company id

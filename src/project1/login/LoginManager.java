@@ -24,8 +24,9 @@ public class LoginManager {
         switch (clientType){
             case Administrator:
                 AdminFacade adminFacade = new AdminFacade();
-                if (adminFacade.login(email,password))
+                if (adminFacade.login(email,password)) {
                     return adminFacade;
+                }
             case Company:
                 CompanyFacade companyFacade = new CompanyFacade();
                 if (companyFacade.login(email,password))
