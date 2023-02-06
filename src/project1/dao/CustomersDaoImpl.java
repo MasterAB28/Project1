@@ -12,7 +12,11 @@ public class CustomersDaoImpl implements CustomersDao {
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     /**
-     *Check if customer exist by email and password and return the customer id
+     * The method checks if the customer exists in the db by email and password
+     * @param email customer's email
+     * @param password customer's password
+     * @return the id of the customer
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public int isCustomerExists(String email, String password) throws SQLException {
@@ -31,7 +35,9 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Add customer to the DB
+     * The method adds customer to the db
+     * @param customer customer, the details of customer are: first name, last name, email, password
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void addCustomer(Customer customer) throws SQLException {
@@ -53,7 +59,9 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Update customer in the DB
+     * The method updates customer in the db
+     * @param customer customer, the details of customer are: first name, last name, email, password and id
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void updateCustomer(Customer customer) throws SQLException {
@@ -72,7 +80,9 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Delete customer from the DB
+     * The method deletes customer from the db
+     * @param customerId customer id
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void deleteCustomer(int customerId) throws SQLException {
@@ -87,7 +97,10 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Get one customer from DB by customer id
+     * The method returns one customer from the db by customer id
+     * @param customerId customer id
+     * @return a customer, the details are:id, first name, last name, email,password and the customer's coupons
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public Customer getOneCustomer(int customerId) throws SQLException {
@@ -107,7 +120,9 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Get all the customers from DB
+     * The method returns list of all the customers from the db
+     * @return list of all the customers, the details are:id, first name, last name, email,password and the customer's coupons
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public List<Customer> getAllCustomers() throws SQLException {
@@ -127,7 +142,11 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Get all customer coupons by Customer ID
+     * The method returns list of coupons by customer id
+     * @param customerId customer id
+     * @return list of coupons, the details are: coupon id, company id, category, name,
+     * title, start date, end date,amount, price,image
+     * @throws SQLException if the sql method is not working properly
      */
     public List<Coupon> getAllCouponsById(int customerId) throws SQLException {
         Connection con = pool.getConnection();
@@ -150,7 +169,10 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Check if the email exists in the DB
+     * The method checks if the customer exists in the db by email
+     * @param email customer email
+     * @return true or false
+     * @throws SQLException if the sql method is not working properly
      */
     public boolean isEmailExists(String email) throws SQLException {
         Connection con = pool.getConnection();
@@ -165,7 +187,10 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Check if the customer exist in the DB by id
+     * The method checks if the customer exists in the db by customer id
+     * @param customerId customer id
+     * @return true or false
+     * @throws SQLException if the sql method is not working properly
      */
     public boolean isCustomerExistsById(int customerId) throws SQLException {
         Connection con = pool.getConnection();
@@ -180,7 +205,10 @@ public class CustomersDaoImpl implements CustomersDao {
     }
 
     /**
-     *Delete the customer purchase from DB
+     * The method checks if the customer exists in the db by customer id
+     * @param customerId customer id
+     * @return true or false
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void deleteCouponPurchasesByCustomerId(int customerId) throws SQLException {

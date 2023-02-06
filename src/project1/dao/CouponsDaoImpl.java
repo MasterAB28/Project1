@@ -4,6 +4,7 @@ package project1.dao;
 import project1.beans.Category;
 import project1.beans.Coupon;
 import project1.db.ConnectionPool;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,10 @@ public class CouponsDaoImpl implements CouponsDao {
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     /**
-     * Add coupon to the DB
+     * The method adds coupon to the db
+     * @param coupon coupon, the details of the coupon are: company id, category, title,description,
+     *               start date, end date, amount, price, image
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void addCoupon(Coupon coupon) throws SQLException {
@@ -40,7 +44,10 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Update coupon in the DB
+     * The method updates coupon in the db
+     * @param coupon  coupon, the details of the coupon are: category, title,description,
+     *      *               start date, end date, amount, price, image and id to find the coupon
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void updateCoupon(Coupon coupon) throws SQLException {
@@ -64,7 +71,9 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Delete coupon from the DB
+     * The method deletes coupon from the db by coupon id
+     * @param couponId coupon id
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void deleteCoupon(int couponId) throws SQLException {
@@ -79,7 +88,10 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Get one coupon from DB
+     * The method returns one coupon from the db by coupon id
+     * @param couponId coupon id
+     * @return one coupon
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public Coupon getOneCoupon(int couponId) throws SQLException {
@@ -101,7 +113,9 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Get all the coupons from the DB
+     * The method returns all coupons from the db
+     * @return list of all the coupons
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public List<Coupon> getAllCoupons() throws SQLException {
@@ -123,7 +137,10 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Add purchase of coupon to the DB
+     * The method returns one coupon from the db by coupon id
+     * @param couponId coupon id
+     * @return one coupon
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void addCouponPurchase(int customerId, int couponId) throws SQLException {
@@ -139,7 +156,10 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Delete purchase of coupon from DB
+     * The method deletes coupon purchase from the db, by customer id and coupon id
+     * @param customerId customer id
+     * @param couponId coupon id
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void deleteCouponPurchase(int customerId, int couponId) throws SQLException {
@@ -155,7 +175,11 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Check if the company have the coupon title
+     * The method checks if the company has already the same coupon title in the db
+     * @param companyId-company id
+     * @param title -coupon title
+     * @return true or false
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public boolean isCompanyGotTheTitle(int companyId, String title) throws SQLException {
@@ -172,7 +196,9 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Delete coupon purchase from DB by coupon id
+     * the method deletes coupon purchase from the db by coupon id
+     * @param couponId
+     * @throws SQLException if the sql method is not working properly
      */
     public void deleteCouponPurchaseByCouponId(int couponId) throws SQLException {
         Connection con = pool.getConnection();
@@ -186,7 +212,11 @@ public class CouponsDaoImpl implements CouponsDao {
     }
 
     /**
-     *Check if customer purchase this coupon or not
+     * The method checks if the purchase  exists in the db by customer id and coupon id
+     * @param customerId-customer id
+     * @param couponId- coupon id
+     * @return true or false
+     * @throws SQLException if the sql method is not working properly
      */
     public boolean isPurchaseExist(int customerId, int couponId) throws SQLException {
         Connection con = pool.getConnection();
@@ -196,16 +226,16 @@ public class CouponsDaoImpl implements CouponsDao {
             statement.setInt(2, couponId);
             ResultSet resultSet = statement.executeQuery();
             return !resultSet.next();
-        }finally {
+        } finally {
             pool.restoreConnection(con);
         }
     }
 
     /**
-     *Check if the coupon exists in the DB by coupon id
-     * @param couponId id of the coupon
-     * @return true or false if the coupon exists by id
-     * @throws SQLException
+     * The method checks if the coupon exists in the db by coupon id
+     * @param couponId- coupon id
+     * @return true or false
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public boolean isCouponExistById(int couponId) throws SQLException {

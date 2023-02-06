@@ -13,11 +13,11 @@ public class CompaniesDaoImpl implements CompaniesDao {
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     /**
-     *  Check if company exist by email and password and return the company id
-     * @param email company email
-     * @param password company password
-     * @return the id of the company
-     * @throws SQLException
+     * The method checks if the company exists by email and password
+     * @param email -company email
+     * @param password-company password
+     * @return company id
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public int isCompanyExists(String email, String password) throws SQLException {
@@ -36,7 +36,9 @@ public class CompaniesDaoImpl implements CompaniesDao {
     }
 
     /**
-     *Add company to the DB
+     *The method adds company to the db
+     * @param company- name, email and password of the company
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void addCompany(Company company) throws SQLException {
@@ -55,7 +57,9 @@ public class CompaniesDaoImpl implements CompaniesDao {
     }
 
     /**
-     *Update company in the DB
+     * The method updates company in the db
+     * @param company -email,password and id of the company
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void updateCompany(Company company) throws SQLException {
@@ -72,7 +76,9 @@ public class CompaniesDaoImpl implements CompaniesDao {
     }
 
     /**
-     *Delete company from DB by company ID
+     * The method deletes company from the db by id
+     * @param companyId- company id
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public void deleteCompany(int companyId) throws SQLException {
@@ -87,7 +93,10 @@ public class CompaniesDaoImpl implements CompaniesDao {
     }
 
     /**
-     *Get one company from DB by company ID
+     * The method returns one company from the db by id
+     * @param companyId- company id
+     * @return one company, the details are:id,name, email, password and list of the company coupons
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public Company getOneCompany(int companyId) throws SQLException {
@@ -108,7 +117,9 @@ public class CompaniesDaoImpl implements CompaniesDao {
     }
 
     /**
-     *Get all the companies in the DB
+     * The method returns all the companies from the db
+     * @return list of all the companies, the details are:id,name, email, password and list of the company coupons for which company
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public List<Company> getAllCompanies() throws SQLException {
@@ -128,7 +139,10 @@ public class CompaniesDaoImpl implements CompaniesDao {
     }
 
     /**
-     *Get all the coupons by company ID
+     * The method returns all the coupons of company from the db by company id
+     * @param companyId company id
+     * @return a list of company coupons
+     * @throws SQLException if the sql method is not working properly
      */
     public List<Coupon> getAllCouponByCompanyId(int companyId) throws SQLException {
         Connection con = pool.getConnection();
@@ -149,10 +163,14 @@ public class CompaniesDaoImpl implements CompaniesDao {
     }
 
     /**
-     *Check if the email or the name is exists in the DB
+     *The method checks if the company exists in the db by name or email
+     * @param name company name
+     * @param email company email
+     * @return true or false
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
-    public boolean isNameAndEmailExist(String email, String name) throws SQLException {
+    public boolean isNameOrEmailExist(String email, String name) throws SQLException {
         Connection con = pool.getConnection();
         try {
             PreparedStatement statement = con.prepareStatement("select email,password from companies where email=? or name=?");
@@ -167,7 +185,10 @@ public class CompaniesDaoImpl implements CompaniesDao {
 
 
     /**
-     * check if the company exist in the DB by ID
+     * The method checks if the company exists in the db by id
+     * @param companyId the id of the company
+     * @return true or false -if the company id exists or no
+     * @throws SQLException if the sql method is not working properly
      */
     @Override
     public boolean isCompanyExistById(int companyId) throws SQLException {

@@ -14,7 +14,7 @@ public class LoginManager {
     private LoginManager() {
     }
 
-    public static LoginManager getInstance() {
+    public synchronized static LoginManager getInstance() {
         if (instance==null)
             instance = new LoginManager();
         return instance;

@@ -6,6 +6,7 @@ import project1.beans.Coupon;
 import project1.beans.Customer;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminFacade extends ClientFacade {
@@ -19,7 +20,7 @@ public class AdminFacade extends ClientFacade {
     }
 
     public void addCompany(Company company) throws MyException, SQLException {
-        if (companiesDao.isNameAndEmailExist(company.getEmail(), company.getName())) {
+        if (companiesDao.isNameOrEmailExist(company.getEmail(), company.getName())) {
             throw new MyException("Company email or name exists");
         }
         companiesDao.addCompany(company);
@@ -30,7 +31,7 @@ public class AdminFacade extends ClientFacade {
             companiesDao.updateCompany(company);
             return;
         }
-        throw new MyException("The company update failed");
+        throw new MyException("The company was not found");
     }
 
     public void deleteCompany(int companyId) throws MyException, SQLException {
@@ -66,7 +67,7 @@ public class AdminFacade extends ClientFacade {
         if (customersDao.isCustomerExistsById(customer.getId())) {
             customersDao.updateCustomer(customer);
         }
-        throw new MyException("The customer update is failed");
+        throw new MyException("The customer was not found");
     }
 
     public void deleteCustomer(int customerId) throws SQLException, MyException {

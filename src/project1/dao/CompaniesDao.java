@@ -21,7 +21,7 @@ public interface CompaniesDao {
 
     List<Coupon> getAllCouponByCompanyId(int companyId) throws SQLException;
 
-    boolean isNameAndEmailExist(String email, String name) throws SQLException;
+    boolean isNameOrEmailExist(String email, String name) throws SQLException;
 
     boolean isCompanyExistById(int companyId) throws SQLException;
 
