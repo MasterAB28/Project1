@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class Program {
     public static void main(String[] args)  {
-        TestAll t = new TestAll();
-        t.TestAll();
+        TestAll testAll=new TestAll();
+        testAll.testAll();
     }
 }

@@ -9,6 +9,7 @@ import project1.bl.CustomerFacade;
 import java.sql.SQLException;
 
 public class LoginManager {
+
     private static LoginManager instance;
 
     private LoginManager() {
@@ -19,7 +20,16 @@ public class LoginManager {
             instance = new LoginManager();
         return instance;
     }
-
+    /**
+     * The method receives client's email and password and type and checks if the email and password are correct,
+     * by method 'facade.login' from the bl
+     * @param email client's email
+     * @param password client's password
+     * @param password client's type
+     * @return facade
+     * @throws MyException if the login failed
+     * @throws SQLException if the sql method is not working properly
+     */
     public ClientFacade login(String email, String password, ClientType clientType) throws MyException, SQLException {
         switch (clientType){
             case Administrator:

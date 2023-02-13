@@ -125,7 +125,7 @@ public class CouponsDaoImpl implements CouponsDao {
             ResultSet resultSet = statement.executeQuery();
             List<Coupon> coupons = new ArrayList<>();
             while (resultSet.next()) {
-                coupons.add(new Coupon(resultSet.getInt(1), resultSet.getInt(2), Category.values()[resultSet.getInt(3)],
+                coupons.add(new Coupon(resultSet.getInt(1), resultSet.getInt(2), Category.values()[resultSet.getInt(3)-1],
                         resultSet.getString(4), resultSet.getString(5), resultSet.getDate(6),
                         resultSet.getDate(7), resultSet.getInt(8), resultSet.getDouble(9),
                         resultSet.getString(10)));

@@ -123,6 +123,7 @@ public class AdminFacade extends ClientFacade {
     public void updateCustomer(Customer customer) throws SQLException, MyException {
         if (customersDao.isCustomerExistsById(customer.getId())) {
             customersDao.updateCustomer(customer);
+            return;
         }
         throw new MyException("The customer was not found");
     }
@@ -139,6 +140,7 @@ public class AdminFacade extends ClientFacade {
         if (customersDao.isCustomerExistsById(customerId)) {
             customersDao.deleteCouponPurchasesByCustomerId(customerId);
             customersDao.deleteCustomer(customerId);
+            return;
         }
         throw new MyException("The customer delete is failed");
     }

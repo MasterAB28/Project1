@@ -56,8 +56,10 @@ public class CompanyFacade extends ClientFacade {
      * @throws SQLException if the sql method is not working properly
      */
     public void updateCoupon(Coupon coupon) throws MyException, SQLException {
-        if (couponsDao.isCouponExistById(coupon.getId()))
+        if (couponsDao.isCouponExistById(coupon.getId())) {
             couponsDao.updateCoupon(coupon);
+            return;
+        }
         throw new MyException("coupon is not exists");
     }
 
@@ -73,6 +75,7 @@ public class CompanyFacade extends ClientFacade {
         if (couponsDao.isCouponExistById(couponId)) {
             couponsDao.deleteCouponPurchaseByCouponId(couponId);
             couponsDao.deleteCoupon(couponId);
+            return;
         }
         throw new MyException("coupon is not exists");
     }
