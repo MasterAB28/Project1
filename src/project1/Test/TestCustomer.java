@@ -83,7 +83,7 @@ public class TestCustomer {
             customerFacade.deletePurchaseCoupon(couponsDao.getOneCoupon(42));
             System.out.println("delete purchase success");
         } catch (MyException | SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 
