@@ -17,14 +17,20 @@ public class TestAll {
 
 
     public void testAll() {
-            CouponExpirationDailyJob job=new CouponExpirationDailyJob();
-            Thread thread = new Thread(job);
-            thread.start();
+        try {
+            CouponExpirationDailyJob job = new CouponExpirationDailyJob();
+            job.start();
             new TestAdmin().runAllAdminFacadeTest();
             new TestCompany().runAllCompanyFacadeTest();
             new TestCustomer().runAllCustomerFacadeTest();
+            job.setQuit(true);
             job.stop();
             ConnectionPool.getInstance().closeAllConnections();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
     }
 }
 

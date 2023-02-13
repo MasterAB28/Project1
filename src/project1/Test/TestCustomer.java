@@ -4,6 +4,7 @@ import project1.Exception.MyException;
 import project1.beans.Category;
 import project1.beans.Coupon;
 import project1.bl.CustomerFacade;
+import project1.dao.CouponsDao;
 import project1.login.ClientType;
 import project1.login.LoginManager;
 
@@ -12,15 +13,17 @@ import java.util.List;
 
 public class TestCustomer {
     CustomerFacade customerFacade;
-    public void runAllCustomerFacadeTest()  {
+    private CouponsDao couponsDao;
+
+    public void runAllCustomerFacadeTest() {
         login();
-        if (customerFacade!=null){
+        if (customerFacade != null) {
 //            purchaseCoupon();
 //            getCustomerCoupons();
-//            getCustomerCouponsByCategory();
-//            getCustomerCouponsByMaxPrice();
-//            getAllCoupons();
-//            getCustomerDetails();
+            getCustomerCouponsByCategory();
+            getCustomerCouponsByMaxPrice();
+            getAllCoupons();
+            getCustomerDetails();
         }
 
     }
@@ -74,20 +77,30 @@ public class TestCustomer {
         }
     }
 
+    public void deletePurchaseCoupon() {
+        System.out.println("📢delete purchase coupon📢");
+        try {
+            customerFacade.deletePurchaseCoupon(couponsDao.getOneCoupon(42));
+            System.out.println("delete purchase success");
+        } catch (MyException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void purchaseCoupon() {
         System.out.println("📢purchase coupon📢");
         try {
-            List<Coupon>coupons=customerFacade.getAllCoupons();
+            List<Coupon> coupons = customerFacade.getAllCoupons();
             customerFacade.purchaseCoupon(coupons.get(0));
-            customerFacade.purchaseCoupon(coupons.get(1));
-        } catch (SQLException|MyException|IndexOutOfBoundsException e) {
+            System.out.println("purchase success");
+        } catch (SQLException | MyException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void login()  {
+    private void login() {
         try {
-            customerFacade = (CustomerFacade) LoginManager.getInstance().login("malki@gmail.com","malki1234", ClientType.Customer);
+            customerFacade = (CustomerFacade) LoginManager.getInstance().login("malki@gmail.com", "malki1234", ClientType.Customer);
         } catch (MyException | SQLException e) {
             System.out.println(e.getMessage());
         }

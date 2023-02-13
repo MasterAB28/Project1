@@ -64,6 +64,24 @@ public class CustomerFacade extends ClientFacade {
     }
 
     /**
+     * The method receives a coupon object and checks if the customer have the purchase
+     * if not, throw exception
+     * if yes delete the purchase from DB and add 1 to the coupon amount and update it in DB
+     * @param coupon coupon to delete purchase
+     * @throws SQLException if the sql method is not working properly
+     * @throws MyException if the customer don't have the coupon purchase
+     */
+    public void deletePurchaseCoupon(Coupon coupon) throws SQLException, MyException {
+        if (couponsDao.isPurchaseExist(customerID,coupon.getId())){
+            couponsDao.deleteCouponPurchase(customerID,coupon.getId());
+            coupon.setAmount(coupon.getAmount()+1);
+            couponsDao.updateCoupon(coupon);
+            return;
+        }
+        throw new MyException("this purchase is not exists");
+    }
+
+    /**
      *The method returns all the coupons from the db of the customer that performed the login
      * @return a list of coupons object of this customer`
      * @throws SQLException if the sql method is not working properly

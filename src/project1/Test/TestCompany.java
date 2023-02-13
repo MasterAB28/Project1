@@ -15,6 +15,7 @@ import java.util.List;
 
 public class TestCompany {
     private CompanyFacade companyFacade;
+
     public void runAllCompanyFacadeTest() {
         login();
         if (companyFacade != null) {
@@ -23,11 +24,10 @@ public class TestCompany {
 //            deleteCoupon();
 //            getCompanyCoupons();
 //            getCompanyCouponsByCategory();
-//            getCompanyCouponsByMaxPrice();
-//            getCompanyDetails();
+            getCompanyCouponsByMaxPrice();
+            getCompanyDetails();
         }
     }
-        
 
 
     private void getCompanyDetails() {
@@ -46,7 +46,7 @@ public class TestCompany {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
     }
 
     private void getCompanyCouponsByCategory() {
@@ -72,10 +72,10 @@ public class TestCompany {
     private void deleteCoupon() {
         System.out.println("📢delete coupon📢");
         try {
-            List<Coupon>coupons=companyFacade.getCompanyCoupons();
+            List<Coupon> coupons = companyFacade.getCompanyCoupons();
             companyFacade.deleteCoupon(coupons.get(0).getId());
-            companyFacade.deleteCoupon(coupons.get(1).getId());
-        } catch (MyException | SQLException| IndexOutOfBoundsException e) {
+            System.out.println("delete coupon success");
+        } catch (MyException | SQLException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
 
@@ -85,38 +85,36 @@ public class TestCompany {
     private void updateCoupon() {
         System.out.println("📢update coupon📢");
         try {
-        List<Coupon>coupons=companyFacade.getCompanyCoupons();
-        Coupon coupon1=coupons.get(0);
-        coupon1.setDescription("Margareta as smart as 'menta'");
-        Coupon coupon2=coupons.get(1);
-        coupon2.setDescription("Shraga as clever as 'ga ga'");
-        companyFacade.updateCoupon(coupon1);
-        companyFacade.updateCoupon(coupon2);
-    } catch (SQLException | MyException|IndexOutOfBoundsException e) {
-        System.out.println(e.getMessage());
+            List<Coupon> coupons = companyFacade.getCompanyCoupons();
+            Coupon coupon1 = coupons.get(0);
+            coupon1.setDescription("Margareta as smart as 'menta'");
+            companyFacade.updateCoupon(coupon1);
+            System.out.println("update coupon success");
+        } catch (SQLException | MyException | IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
     }
-}
-        
 
 
     private void addCoupon() {
         System.out.println("📢add coupon📢");
         try {
-            Coupon coupon1=new Coupon(companyFacade.getCompanyDetails().getId(),Category.FOOD,"Margareta","Big bos to sail",
-                    Date.valueOf("2023-02-08"),Date.valueOf("2023-09-02"),5,1.90,"🤬");
-            Coupon coupon2=new Coupon(companyFacade.getCompanyDetails().getId(),Category.SPA,"Shraga","Shraga is recruiting John Bryce graduates ",
-                    Date.valueOf("2023-02-08"),Date.valueOf("2023-07-02"),7,8.90,"🤠");
-            Coupon coupon3=new Coupon(companyFacade.getCompanyDetails().getId(),Category.SPORT,"Stam","Achla shem shebaholam",
-                    Date.valueOf("2023-02-08"),Date.valueOf("2023-06-02"),8,9.90,"😎");
-            Coupon coupon4=new Coupon(companyFacade.getCompanyDetails().getId(),Category.BEVERAGES,"Yada","yada yada",
-                    Date.valueOf("2023-02-08"),Date.valueOf("2023-05-02"),2,10.90,"😴");
-            Coupon coupon5=new Coupon(companyFacade.getCompanyDetails().getId(),Category.TRAVEL,"Bla","bla bla",
-                    Date.valueOf("2023-02-07"),Date.valueOf("2023-02-18"),4,6.90,"👽");
+            Coupon coupon1 = new Coupon(companyFacade.getCompanyDetails().getId(), Category.FOOD, "Margareta", "Big bos to sail",
+                    Date.valueOf("2023-02-08"), Date.valueOf("2023-09-02"), 5, 1.90, "🤬");
+            Coupon coupon2 = new Coupon(companyFacade.getCompanyDetails().getId(), Category.SPA, "Shraga", "Shraga is recruiting John Bryce graduates ",
+                    Date.valueOf("2023-02-08"), Date.valueOf("2023-07-02"), 7, 8.90, "🤠");
+            Coupon coupon3 = new Coupon(companyFacade.getCompanyDetails().getId(), Category.SPORT, "Stam", "Achla shem shebaholam",
+                    Date.valueOf("2023-02-08"), Date.valueOf("2023-06-02"), 8, 9.90, "😎");
+            Coupon coupon4 = new Coupon(companyFacade.getCompanyDetails().getId(), Category.BEVERAGES, "Yada", "yada yada",
+                    Date.valueOf("2023-02-08"), Date.valueOf("2023-05-02"), 2, 10.90, "😴");
+            Coupon coupon5 = new Coupon(companyFacade.getCompanyDetails().getId(), Category.TRAVEL, "Bla", "bla bla",
+                    Date.valueOf("2023-02-07"), Date.valueOf("2023-02-18"), 4, 6.90, "👽");
             companyFacade.addCoupon(coupon1);
             companyFacade.addCoupon(coupon2);
             companyFacade.addCoupon(coupon3);
             companyFacade.addCoupon(coupon4);
             companyFacade.addCoupon(coupon5);
+            System.out.println("add coupon success");
         } catch (SQLException | MyException e) {
             System.out.println(e.getMessage());
         }
@@ -124,7 +122,7 @@ public class TestCompany {
 
     private void login() {
         try {
-            companyFacade= (CompanyFacade) LoginManager.getInstance().login("Nirteck@gmail.com","Nirteck1234", ClientType.Company);
+            companyFacade = (CompanyFacade) LoginManager.getInstance().login("Nirteck@gmail.com", "Nirteck1234", ClientType.Company);
         } catch (MyException | SQLException e) {
             System.out.println(e.getMessage());
         }
