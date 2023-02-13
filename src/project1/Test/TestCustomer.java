@@ -18,7 +18,7 @@ public class TestCustomer {
     public void runAllCustomerFacadeTest() {
         login();
         if (customerFacade != null) {
-//            purchaseCoupon();
+           purchaseCoupon();
 //            getCustomerCoupons();
 //           getCustomerCouponsByCategory();
 //          getCustomerCouponsByMaxPrice();
