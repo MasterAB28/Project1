@@ -20,10 +20,10 @@ public class TestCustomer {
         if (customerFacade != null) {
 //            purchaseCoupon();
 //            getCustomerCoupons();
-            getCustomerCouponsByCategory();
-            getCustomerCouponsByMaxPrice();
-            getAllCoupons();
-            getCustomerDetails();
+//           getCustomerCouponsByCategory();
+//          getCustomerCouponsByMaxPrice();
+//        getAllCoupons();
+//      getCustomerDetails();
         }
 
     }
